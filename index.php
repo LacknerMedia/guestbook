@@ -47,6 +47,7 @@ $nameError = 0;
 $websiteError = 0;
 $msgError = 0;
 $test = "YYYdsa";
+$noError = 0;
 //$websiteText = "";
 
 if ($name == "") {
@@ -71,6 +72,7 @@ if ($msg == "") {
 
 if ($nameError == 0) {
     echo "Dein Name lautet nun: " . $fullname . "<br />";
+    $noError++;
 } else {
     echo "Wir würden gerne deinen Namen erfahren!<br />";
 }
@@ -83,8 +85,13 @@ if ($websiteError == 0) {
            
 if ($msgError == 0) {
     echo "Deine Nachricht an uns: " . $msg . "<br />";
+    $noError++;
 } else {
     echo "Bitte eine Nachricht eingeben!<br />";
+}
+           
+if ($noError > 1) {
+    echo "alles super!";
 }
 
 mysqli_close($con);
