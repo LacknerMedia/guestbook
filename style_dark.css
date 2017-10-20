@@ -1,0 +1,56 @@
+body {
+    background: #000;
+    color: #fff;
+}
+
+h1 {
+    color: #000;
+    background: #fff;
+}
+
+input.txt  {
+    border-color: #fff;
+    background: #000;
+    color: #fff;
+}
+
+input.txt:focus {
+    background: #fff !important;
+    color: #000 !important;
+}
+
+input.btn {
+    background: #000 !important;
+    color: #fff !important;
+    border-color: #fff;
+}
+
+input.btn:hover {
+    background: #fff !important;
+    color: #000 !important;
+}
+
+textarea.txt  {
+    border-color: #fff;
+    background: #000;
+    color: #fff;
+}
+
+textarea.txt:focus {
+    background: #fff !important;
+    color: #000 !important;
+}
+
+.note strong {
+    color: #000;
+    background: #fff;
+
+}
+
+/* .note:hover {
+    background: #fff;
+    color: #000;
+}*/
+
+
+
