@@ -30,8 +30,9 @@
     </body>
 </html>
 <?php
+error_reporting(E_ALL & ~E_NOTICE);
 // Connect to MySQL
-$con = mysqli_connect("root","root","inventory","localhost");
+$con = mysqli_connect("root","root","inventory","localhost");       
 
 // Connection Test
 if ($con->connect_error) {
@@ -49,7 +50,9 @@ $msgError = 0;
 $test = "YYYdsa";
 $noError = 0;
 //$websiteText = "";
-
+$insert = "INSERT INTO guests (name, website, msg)
+VALUES ($name, $website, $msg)";
+           
 if ($name == "") {
     $test = "<p>Wir würden gerne deinen Namen erfahren!</p>";
     $nameError = 1;
@@ -89,9 +92,15 @@ if ($msgError == 0) {
 } else {
     echo "Bitte eine Nachricht eingeben!<br />";
 }
+   
+echo $noError
            
 if ($noError > 1) {
-    echo "alles super!";
+    if ($con->query($insert) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $insert . "<br>" . $con->error;
+    }
 }
 
 mysqli_close($con);
