@@ -1,4 +1,4 @@
-
+<?error_reporting(E_ALL & ~E_NOTICE);?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,7 +15,7 @@
                 <input class="txt" type="text" name="name" ><br />
                 <input class="txt" type="text" name="website" placeholder="http://meinewebsite.com/"><br />
                 <textarea class="txt" cols="80" rows="5" name="msg"></textarea><br />
-                <input class="btn" type="submit">
+                <input class="btn" name="submit" type="submit">
             </form>
             <div class="tasks">
                 <div class="note"><strong>Aufgabe #1:</strong><br /> <p>Text im Feld soll nach dem Submit neben dem "Dein Name lautet" und statt "Namenloser" auftauchen!</p></div>
@@ -30,29 +30,55 @@
     </body>
 </html>
 <?php
-error_reporting(E_ALL & ~E_NOTICE);
-// Connect to MySQL
-$con = mysqli_connect("localhost","root","root","inventory");
 
-// Connection Test
-if ($con->connect_error) {
-    die("Connection failed: " . $con->connect_error);
+if(!isset($_POST['submit'])) {
+    echo "test";
+	return;
+} else {
+    // MYSQL Connect
+	$con = mysqli_connect("localhost","root","","gaestebuch");
+	if(mysqli_connect_errno() ) {
+	    // FEHLER
+        echo 'Failed connecting to DB: ', mysqli_connect_errno();
+        return;
+    }
+	$name   = $_POST["name"];
+	//$name2  = $_POST["name2"];
+	$website= $_POST["website"];
+	$msg    = $_POST["msg"];
+
+	$test   = "YYYdsa";
+	$fullname = $name . " " . $name2;
+	// $nameError = 0;
+	$websiteError = 0;
+	$msgError   = 0;
+	$noError    = 0;
+
+	$errStack = array();
+
+	// Validating
+   /* if($name =="")
+        $errStac['']
+*/
+
 }
 
-$name = $_POST["name"];
-$name2 = $_POST["name2"];
-$website = $_POST["website"];
-$msg = $_POST["msg"];
+$name   = $_POST["name"];
+$name2  = $_POST["name2"];
+$website= $_POST["website"];
+$msg    = $_POST["msg"];
+
 $fullname = $name . " " . $name2;
-$nameError = 0;
+$nameError= 0;
 $websiteError = 0;
-$msgError = 0;
-$test = "YYYdsa";
-$noError = 0;
+
+$msgError   = 0;
+$test       = "YYYdsa";
+$noError    = 0;
 //$websiteText = "";
-$insert = "INSERT INTO guests (name, website, msg)
-VALUES ($name, $website, $msg)";
-           
+
+$insert = "INSERT INTO entries (name,text) VALUES (".$name."´, ´".$msg."´)";
+
 if ($name == "") {
     $test = "<p>Wir würden gerne deinen Namen erfahren!</p>";
     $nameError = 1;
@@ -71,8 +97,6 @@ if ($msg == "") {
     $msgError = 1;
 }
 
-
-
 if ($nameError == 0) {
     echo "Dein Name lautet nun: " . $fullname . "<br />";
     $noError++;
@@ -83,7 +107,7 @@ if ($nameError == 0) {
 if ($websiteError == 0) {
     echo "Deine Website ist: " . $website . "<br />";
 } else {
-    echo "$websiteText <br />";
+    echo $websiteText, '<br>' ;
 }
            
 if ($msgError == 0) {
