@@ -4,6 +4,7 @@
     <head>
         <title>Uhm...</title>
         <link rel="stylesheet" type="text/css" href="style.css" />
+        <!-- DARK THEME STYLE SHEET -->
         <link rel="stylesheet" type="text/css" href="style_dark.css" />
     </head>
     <body>
@@ -32,11 +33,11 @@
 <?php
 
 if(!isset($_POST['submit'])) {
-    echo "test";
+    echo "oh nein!";
 	return;
 } else {
     // MYSQL Connect
-	$con = mysqli_connect("localhost","root","","gaestebuch");
+	$con = mysqli_connect("localhost","root","root","guests");
 	if(mysqli_connect_errno() ) {
 	    // FEHLER
         echo 'Failed connecting to DB: ', mysqli_connect_errno();
@@ -68,16 +69,14 @@ $name2  = $_POST["name2"];
 $website= $_POST["website"];
 $msg    = $_POST["msg"];
 
-$fullname = $name . " " . $name2;
-$nameError= 0;
+$fullname   = $name . " " . $name2;
+$nameError  = 0;
 $websiteError = 0;
 
 $msgError   = 0;
 $test       = "YYYdsa";
 $noError    = 0;
 //$websiteText = "";
-
-$insert = "INSERT INTO entries (name,text) VALUES (".$name."´, ´".$msg."´)";
 
 if ($name == "") {
     $test = "<p>Wir würden gerne deinen Namen erfahren!</p>";
@@ -86,11 +85,6 @@ if ($name == "") {
            
 if ($website == "") {
     $websiteError = 1;
-} else {
-    //$website = test_input($_POST["website"]);
-    //if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$website)) {
-    //    $websiteText = "Ungültige Website!"; 
-    //}
 }
            
 if ($msg == "") {
@@ -117,14 +111,28 @@ if ($msgError == 0) {
     echo "Bitte eine Nachricht eingeben!<br />";
 }
    
-echo $noError;
+$insert = "INSERT INTO entries (name,website,text) VALUES ('".$name."','".$website."', '".$msg."')";
            
 if ($noError > 1) {
     if ($con->query($insert) === TRUE) {
-        echo "New record created successfully";
+        echo "Datenbank Eintrag erstellt!<br/>";
     } else {
         echo "Error: " . $insert . "<br>" . $con->error;
     }
+} else {
+    echo "Die erforderlichen Felder wurden nicht ausgefüllt!<br/>";
+}
+           
+$select = "SELECT id,name,website,text FROM entries";
+$result = $con->query($select);
+
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        echo "<br/>id: " . $row["id"]. "<br/>Name: " . $row["name"]. "<br/>Website: "  . $row["website"].
+        "<br/>Nachricht: "  . $row["text"]. "<br/>Zeit: "  . $row["date"]. "<br>";
+    }
+} else {
+    echo "<br/>0 results";
 }
 
 mysqli_close($con);
