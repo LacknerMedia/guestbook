@@ -32,7 +32,7 @@
 <?php
 error_reporting(E_ALL & ~E_NOTICE);
 // Connect to MySQL
-$con = mysqli_connect("root","root","inventory","localhost");       
+$con = mysqli_connect("localhost","root","root","inventory");
 
 // Connection Test
 if ($con->connect_error) {
@@ -93,7 +93,7 @@ if ($msgError == 0) {
     echo "Bitte eine Nachricht eingeben!<br />";
 }
    
-echo $noError
+echo $noError;
            
 if ($noError > 1) {
     if ($con->query($insert) === TRUE) {
